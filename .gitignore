@@ -1,0 +1,9 @@
+/target
+/bin
+/createDDL.sql
+/derby.log
+/dropDDL.sql
+/.settings
+/.classpath
+/.DS_Store
+/.project
