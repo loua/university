@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="university-model">
+	<persistence-unit name="university-model" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>laloia.university.model.Course</class>
 		<class>laloia.university.model.Department</class>
+		<!-- jdbc:derby:/Users/lou/programs/db-derby-10.10.1.1-lib/db/university;create=true -->
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:university;create=true"/>
+			<property name="javax.persistence.jdbc.user" value="app"/>
+			<property name="javax.persistence.jdbc.password" value="password"/>
+			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+			<property name="eclipselink.logging.level.sql" value="FINE"/>
+			<property name="eclipselink.logging.parameters" value="true"/>
+			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="eclipselink.target-database" value="Derby"/>
+		</properties>
 	</persistence-unit>
 </persistence>

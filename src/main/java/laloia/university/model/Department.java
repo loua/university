@@ -1,7 +1,12 @@
 package laloia.university.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Department {
@@ -9,6 +14,11 @@ public class Department {
 	private int id;
 	private String name;
 	private String code;
+	private List<Course> courses;
+
+	public Department() {
+		courses = new ArrayList<Course>();
+	}
 
 	@Id
 	public int getId() {
@@ -33,6 +43,20 @@ public class Department {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	@OneToMany(cascade = CascadeType.PERSIST)
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
+	public void add(Course course) {
+		courses.add(course);
+		course.setDepartment(this);
 	}
 
 }
