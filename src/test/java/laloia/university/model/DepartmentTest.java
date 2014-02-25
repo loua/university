@@ -1,5 +1,8 @@
 package laloia.university.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -8,11 +11,16 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.util.fileloader.DataFileLoader;
+import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,11 +69,25 @@ public class DepartmentTest {
 		em.flush();
 		System.out.println("dept.Id=" + dept.getId());
 		System.out.println("dept.courses=" + dept.getCourses().size());
-		
 		trx.commit();
+		
+		EntityTransaction trxRead = em.getTransaction();
+		trxRead.begin();
+		DatabaseConnection dbConnection = new DatabaseConnection(getConnection());
+		
+//		IDataSet fullDataSet = dbConnection.createDataSet();
+//        FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
+        
+		DataFileLoader loader = new FlatXmlDataFileLoader();
+		IDataSet expectedDataSet = loader.load("/expectedDepartmentDataSet.xml");
+        ITable expectedTable = expectedDataSet.getTable("DEPARTMENT");
+        
+        IDataSet databaseDataSet = dbConnection.createDataSet();
+        ITable actualTable = databaseDataSet.getTable("DEPARTMENT");
 
-		//IDataSet databaseDataSet = new DatabaseConnection(getConnection()).createDataSet();
-        //ITable actualTable = databaseDataSet.getTable("TABLE_NAME");
+        // Assert actual database table match expected table
+        Assertion.assertEquals(expectedTable, actualTable);
+        trxRead.commit();
 
 	}
 
