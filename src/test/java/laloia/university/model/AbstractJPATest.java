@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.dbunit.database.DatabaseConnection;
@@ -19,6 +20,7 @@ public abstract class AbstractJPATest {
 	private static EntityManagerFactory emf;
 	
 	EntityManager em;
+	EntityTransaction trx;
 
 	@BeforeClass
 	public static void setUpOnce() throws Exception {
@@ -33,11 +35,19 @@ public abstract class AbstractJPATest {
 	@Before
 	public void setUpBase() throws Exception {
 		em = emf.createEntityManager();
+		trx = em.getTransaction();
+		trx.begin();
 	}
 
 	@After
 	public void tearDownBase() throws Exception {
 		em.close();
+		trx.rollback();
+	}
+	
+	void persistAndFlush(Object entity) {
+		em.persist(entity);
+		em.flush();
 	}
 
 	IDatabaseConnection getDbConnectionFromDriver() throws Exception {
