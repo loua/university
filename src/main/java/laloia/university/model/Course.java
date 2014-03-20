@@ -1,9 +1,12 @@
 package laloia.university.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.TableGenerator;
 
 /**
  * Entity implementation class for Entity: Course
@@ -23,8 +26,9 @@ public class Course {
 		super();
 	}
 
+	@TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "COURSE", strategy = GenerationType.TABLE)
 	public long getId() {
 		return id;
 	}
@@ -65,6 +69,7 @@ public class Course {
 		this.creditHours = creditHours;
 	}
 
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	public Department getDepartment() {
 		return department;
 	}

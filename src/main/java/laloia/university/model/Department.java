@@ -3,14 +3,17 @@ package laloia.university.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.TableGenerator;
 
 @Entity
+@NamedQuery(name = "FindAndFetchCourses", query = "select d from Department d join fetch d.courses where d.id = :deptId")
 public class Department {
 
 	private long id;
@@ -22,8 +25,9 @@ public class Department {
 		courses = new ArrayList<Course>();
 	}
 
+	@TableGenerator(name = "DEPT", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "DEPT", strategy = GenerationType.TABLE)
 	public long getId() {
 		return id;
 	}
@@ -48,7 +52,7 @@ public class Department {
 		this.code = code;
 	}
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
 	public List<Course> getCourses() {
 		return courses;
 	}
