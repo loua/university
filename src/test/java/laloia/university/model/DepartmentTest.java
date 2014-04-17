@@ -115,6 +115,11 @@ public class DepartmentTest extends AbstractJPATest {
 
 		assertTrue(punitUtil.isLoaded(department));
 		assertFalse(punitUtil.isLoaded(department, "courses"));
+		
+		int coursesSize = department.getCourses().size();
+		
+		assertTrue(punitUtil.isLoaded(department, "courses"));
+		assertEquals("All courses loaded", coursesSize, 2);
 	}
 	
 	@Test
