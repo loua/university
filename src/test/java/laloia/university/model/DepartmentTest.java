@@ -20,9 +20,8 @@ import org.junit.Test;
 public class DepartmentTest extends AbstractJPATest {
 
 	@Test
-	public void persistDepartmentWithCourse() throws Exception {
+	public void persistDepartment() throws Exception {
 		Department dept = createDepartment();
-		//dept.add(createCourse());
 
 		persistAndFlush(dept);
 
@@ -43,7 +42,7 @@ public class DepartmentTest extends AbstractJPATest {
 
 	@Test
 	public void persistCourseWithoutDepartment() {
-		Course course = createCourse();
+		Course course = new Course("Introduction to Computer Science", "100");
 
 		persistAndFlush(course);
 
@@ -53,9 +52,7 @@ public class DepartmentTest extends AbstractJPATest {
 
 	@Test
 	public void persistCourseWithNewDepartment() {
-		Course course = new Course();
-		course.setName("Intro to Computer Science");
-		course.setNumber("100");
+		Course course = new Course("Intro to Computer Science", "100");
 
 		course.setDepartment(createDepartment());
 
@@ -68,14 +65,13 @@ public class DepartmentTest extends AbstractJPATest {
 	@Test
 	public void persistCourseWithExistingDepartment() throws Exception {
 		cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
-		Course course = createCourse();
+		Course course = new Course("Introduction to Computer Science", "100");
 		final long expectedDeptId = 1L;
 		Department department = em.find(Department.class, expectedDeptId);
 
 		course.setDepartment(department);
 		persistAndFlush(course);
 		
-		//em.refresh(course);
 		em.clear();
 		Course newCourse = em.find(Course.class, course.getId());
 		assertEquals(expectedDeptId, newCourse.getDepartment().getId());
@@ -144,13 +140,5 @@ public class DepartmentTest extends AbstractJPATest {
 		dept.setName("Computer Science");
 
 		return dept;
-	}
-
-	Course createCourse() {
-		Course course = new Course();
-		course.setName("Introduction to Computer Science");
-		course.setNumber("100");
-		course.setDescription("An introduction to concepts in computer science for the beginner");
-		return course;
 	}
 }

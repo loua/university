@@ -21,9 +21,13 @@ public class Course {
 	private String name;
 	private int creditHours;
 	private Department department;
-
+	
 	public Course() {
-		super();
+	}
+
+	public Course(String name, String number) {
+		this.name = name;
+		this.number = number;
 	}
 
 	@TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
