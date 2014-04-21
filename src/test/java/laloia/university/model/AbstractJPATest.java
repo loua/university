@@ -91,4 +91,12 @@ public abstract class AbstractJPATest {
 		DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
 		conn.close();
 	}
+	
+	void deleteAll(String fileName) throws Exception {
+		DataFileLoader loader = new FlatXmlDataFileLoader();
+		IDataSet dataSet = loader.load(fileName);
+		IDatabaseConnection conn = getDbConnectionFromDriver();
+		DatabaseOperation.DELETE_ALL.execute(conn, dataSet);
+		conn.close();
+	}
 }

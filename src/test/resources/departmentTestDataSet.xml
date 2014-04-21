@@ -6,4 +6,5 @@
 		science for the beginner" NAME="Introduction to Computer Science" NUMBER="100" DEPARTMENT_ID="2"/>
 	<COURSE ID="2" CREDITHOURS="3" DESCRIPTION="An introduction to computer programming"
 		NAME="Introduction to Programming" NUMBER="101" DEPARTMENT_ID="2"/>
+
 </dataset>

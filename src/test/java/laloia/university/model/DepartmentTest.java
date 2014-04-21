@@ -21,6 +21,7 @@ public class DepartmentTest extends AbstractJPATest {
 
 	@Test
 	public void persistDepartment() throws Exception {
+		deleteAll("/departmentTestDataSet.xml");
 		Department dept = createDepartment();
 
 		persistAndFlush(dept);
@@ -33,15 +34,15 @@ public class DepartmentTest extends AbstractJPATest {
 		IDatabaseConnection dbConnection = getDbConnection();
 		IDataSet databaseDataSet = dbConnection.createDataSet();
 		ITable actualTable = databaseDataSet.getTable("DEPARTMENT");
-		DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable
+		ITable filteredTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable
 				.getTableMetaData().getColumns());
 
 		// Assert actual database table match expected table
-		Assertion.assertEquals(expectedTable, actualTable);
+		Assertion.assertEquals(expectedTable, filteredTable);
 	}
 
 	@Test
-	public void persistCourseWithoutDepartment() {
+	public void persistCourseWithoutDepartment() throws Exception {
 		Course course = new Course("Introduction to Computer Science", "100");
 
 		persistAndFlush(course);
@@ -51,7 +52,7 @@ public class DepartmentTest extends AbstractJPATest {
 	}
 
 	@Test
-	public void persistCourseWithNewDepartment() {
+	public void persistCourseWithNewDepartment() throws Exception {
 		Course course = new Course("Intro to Computer Science", "100");
 
 		course.setDepartment(createDepartment());

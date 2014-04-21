@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<COURSE ID="100" CREDITHOURS="0" DESCRIPTION="An introduction to concepts in computer
-		science for the beginner" NAME="Introduction to Computer Science" NUMBER="100" DEPARTMENT_ID="1"/>
-	<DEPARTMENT ID="100" CODE="CS" NAME="Computer Science"/>
-	<DEPARTMENT_COURSE DEPARTMENT_ID="1" COURSES_ID="1"/>
+	<DEPARTMENT CODE="CS" NAME="Computer Science"/>
 </dataset>
