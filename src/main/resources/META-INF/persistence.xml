@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="university-model"
-		transaction-type="RESOURCE_LOCAL">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>laloia.university.model.Course</class>
-		<class>laloia.university.model.Department</class>
-		<class>laloia.university.model.CourseSchedule</class>
-		<class>laloia.university.model.MeetingTime</class>
-		<class>laloia.university.model.Location</class>
-		<!-- jdbc:derby:/Users/lou/programs/db-derby-10.10.1.1-lib/db/university;create=true -->
-		<!-- jdbc:derby:memory:university;create=true -->
-		<properties>
-			<property name="X-javax.persistence.jdbc.url"
-				value="jdbc:derby:/Users/lou/programs/db-derby-10.10.1.1-lib/db/university;create=true" />
-			<property name="javax.persistence.jdbc.url"
-				value="jdbc:derby:memory:university;create=true" />
-			<property name="javax.persistence.jdbc.user" value="app" />
-			<property name="javax.persistence.jdbc.password" value="password" />
-			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
-			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<property name="eclipselink.logging.parameters" value="true" />
-			<property name="javax.persistence.schema-generation.database.action"
-				value="create" />
-			<property name="eclipselink.target-database" value="Derby" />
-			<property name="eclipselink.weaving" value="static"/>
-			<property name="eclipselink.logging.level" value="ALL"/>
-		</properties>
-	</persistence-unit>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="university-model" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>laloia.university.model.Course</class>
+        <class>laloia.university.model.Department</class>
+        <class>laloia.university.model.CourseSchedule</class>
+        <class>laloia.university.model.MeetingTime</class>
+        <class>laloia.university.model.Location</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:university-db"/>
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+            <property name="javax.persistence.jdbc.user" value="SA"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="eclipselink.target-database" value="HSQL"/>
+            <property name="eclipselink.weaving" value="true"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
+        </properties>
+    </persistence-unit>
 </persistence>
