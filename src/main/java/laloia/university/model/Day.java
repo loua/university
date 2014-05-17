@@ -1,5 +1,6 @@
 package laloia.university.model;
 
 public enum Day {
-	M, T, W, TH, F, SA;
+
+    M, T, W, TH, F, SA;
 }

@@ -90,7 +90,7 @@
     </dependencies>
 
     <properties>
-        <project.build.sourceEncoding>US-ASCII</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <!--        <M2_REPO>${settings.localRepository}</M2_REPO>-->
         <jpa.enhancerJar>/org/eclipse/persistence/eclipselink/2.5.0/eclipselink-2.5.0.jar</jpa.enhancerJar>
         <jpa.javaagent>${maven.dependency.org.eclipse.persistence.eclipselink.jar.path}</jpa.javaagent>

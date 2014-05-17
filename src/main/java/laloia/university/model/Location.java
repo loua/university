@@ -10,35 +10,35 @@ import javax.persistence.Id;
 @Entity
 public class Location implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private long id;
-	private String name;
-	private String roomNumber;
+    private long id;
+    private String name;
+    private String roomNumber;
 
-	@Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getRoomNumber() {
-		return roomNumber;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setRoomNumber(String roomNumber) {
-		this.roomNumber = roomNumber;
-	}
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 }

@@ -11,75 +11,75 @@ import javax.persistence.TableGenerator;
 
 /**
  * Entity implementation class for Entity: Course
- * 
+ *
  */
 @Entity
 public class Course {
 
-	private long id;
-	private String number;
-	private String description;
-	private String name;
-	private int creditHours;
-	private Department department;
-	
-	public Course() {
-	}
+    private long id;
+    private String number;
+    private String description;
+    private String name;
+    private int creditHours;
+    private Department department;
 
-	public Course(String name, String number) {
-		this.name = name;
-		this.number = number;
-	}
+    public Course() {
+    }
 
-	@TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
-	@Id
-	@GeneratedValue(generator = "COURSE", strategy = GenerationType.TABLE)
-	public long getId() {
-		return id;
-	}
+    public Course(String name, String number) {
+        this.name = name;
+        this.number = number;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
+    @Id
+    @GeneratedValue(generator = "COURSE", strategy = GenerationType.TABLE)
+    public long getId() {
+        return id;
+    }
 
-	public String getNumber() {
-		return this.number;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public String getNumber() {
+        return this.number;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public int getCreditHours() {
-		return this.creditHours;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCreditHours(int creditHours) {
-		this.creditHours = creditHours;
-	}
+    public int getCreditHours() {
+        return this.creditHours;
+    }
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	public Department getDepartment() {
-		return department;
-	}
+    public void setCreditHours(int creditHours) {
+        this.creditHours = creditHours;
+    }
 
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 }

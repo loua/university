@@ -8,41 +8,42 @@ import javax.persistence.Enumerated;
 
 @Embeddable
 public class MeetingTime {
-	private Day day;
-	private Time startTime;
-	private Time endTime;
-	private Location location;
 
-	@Enumerated(EnumType.STRING)
-	public Day getDay() {
-		return day;
-	}
+    private Day day;
+    private Time startTime;
+    private Time endTime;
+    private Location location;
 
-	public void setDay(Day day) {
-		this.day = day;
-	}
+    @Enumerated(EnumType.STRING)
+    public Day getDay() {
+        return day;
+    }
 
-	public Time getStartTime() {
-		return startTime;
-	}
+    public void setDay(Day day) {
+        this.day = day;
+    }
 
-	public void setStartTime(Time startTime) {
-		this.startTime = startTime;
-	}
+    public Time getStartTime() {
+        return startTime;
+    }
 
-	public Time getEndTime() {
-		return endTime;
-	}
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
 
-	public void setEndTime(Time endTime) {
-		this.endTime = endTime;
-	}
+    public Time getEndTime() {
+        return endTime;
+    }
 
-	public Location getLocation() {
-		return location;
-	}
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
 
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }
