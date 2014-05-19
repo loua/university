@@ -64,11 +64,6 @@
             <artifactId>hsqldb</artifactId>
             <version>2.3.2</version>
         </dependency>        
-        <!--dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.178</version>
-        </dependency -->
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
@@ -91,8 +86,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--        <M2_REPO>${settings.localRepository}</M2_REPO>-->
         <jpa.enhancerJar>/org/eclipse/persistence/eclipselink/2.5.0/eclipselink-2.5.0.jar</jpa.enhancerJar>
-        <jpa.javaagent>${maven.dependency.org.eclipse.persistence.eclipselink.jar.path}</jpa.javaagent>
+        <!--<jpa.javaagent>${maven.dependency.org.eclipse.persistence.eclipselink.jar.path}</jpa.javaagent>-->
     </properties>
 </project>
