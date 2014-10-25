@@ -76,16 +76,21 @@ public abstract class AbstractJPATest {
     IDatabaseConnection getDbConnectionFromDriver() throws Exception {
         Class.forName(dbProperties.getProperty("jdbc.driver"));
 
-        return new DatabaseConnection(DriverManager.getConnection(
+        IDatabaseConnection connection = new DatabaseConnection(DriverManager.getConnection(
                 dbProperties.getProperty("jdbc.url"),
                 dbProperties.getProperty("jdbc.user"),
                 dbProperties.getProperty("jdbc.password")));
+        
+        DatabaseConfig dbConfig = connection.getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());        
+        
+        return connection;
     }
 
     IDatabaseConnection getDbConnection() throws Exception {
         IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
-        DatabaseConfig dbConfig = connection.getConfig();
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+        //DatabaseConfig dbConfig = connection.getConfig();
+        //dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
         return connection;
     }
 
