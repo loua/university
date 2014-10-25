@@ -10,10 +10,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnitUtil;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.dbunit.util.fileloader.DataFileLoader;
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
@@ -42,6 +44,7 @@ public abstract class AbstractJPATest {
         }
         dbProperties = new Properties();
         dbProperties.load(input);
+        
     }
 
     @AfterClass
@@ -80,7 +83,10 @@ public abstract class AbstractJPATest {
     }
 
     IDatabaseConnection getDbConnection() throws Exception {
-        return new DatabaseConnection(getCurrentConnection());
+        IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
+        DatabaseConfig dbConfig = connection.getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+        return connection;
     }
 
     Connection getCurrentConnection() {
