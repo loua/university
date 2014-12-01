@@ -7,3 +7,5 @@
 /.classpath
 /.DS_Store
 /.project
+/createDDL_ddlGeneration.jdbc
+/dropDDL_ddlGeneration.jdbc
