@@ -31,7 +31,7 @@ public class Course {
         this.number = number;
     }
 
-    @TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
+    @TableGenerator(name = "COURSE", table = "ID_GEN", pkColumnName = "NAME", pkColumnValue = "Course", valueColumnName = "LAST_ID", initialValue = 100)
     @Id
     @GeneratedValue(generator = "COURSE", strategy = GenerationType.TABLE)
     public long getId() {

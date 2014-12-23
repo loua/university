@@ -25,7 +25,7 @@ public class Department {
         courses = new ArrayList<Course>();
     }
 
-    @TableGenerator(name = "DEPT", table = "ID_GEN", pkColumnName = "NAME", valueColumnName = "LAST_ID", initialValue = 100)
+    @TableGenerator(name = "DEPT", table = "ID_GEN", pkColumnName = "NAME", pkColumnValue = "Dept", valueColumnName = "LAST_ID", initialValue = 100)
     @Id
     @GeneratedValue(generator = "DEPT", strategy = GenerationType.TABLE)
     public long getId() {

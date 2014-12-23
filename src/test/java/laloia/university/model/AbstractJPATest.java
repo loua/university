@@ -73,7 +73,7 @@ public abstract class AbstractJPATest {
         em.flush();
     }
 
-    IDatabaseConnection getDbConnectionFromDriver() throws Exception {
+    private IDatabaseConnection getDbConnectionFromDriver() throws Exception {
         Class.forName(dbProperties.getProperty("jdbc.driver"));
 
         IDatabaseConnection connection = new DatabaseConnection(DriverManager.getConnection(
