@@ -7,19 +7,5 @@
         <class>laloia.university.model.CourseSchedule</class>
         <class>laloia.university.model.MeetingTime</class>
         <class>laloia.university.model.Location</class>
-        <properties>
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:university-db"/>-->
-            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost/univ-db"/>
-            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
-            <property name="javax.persistence.jdbc.user" value="SA"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
-
-            <property name="eclipselink.logging.level.sql" value="FINE"/>
-            <property name="eclipselink.logging.parameters" value="true"/>
-            <property name="eclipselink.target-database" value="HSQL"/>
-            <property name="eclipselink.weaving" value="true"/>
-            <property name="eclipselink.logging.level" value="INFO"/>
-        </properties>
     </persistence-unit>
 </persistence>

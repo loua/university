@@ -37,14 +37,14 @@ public abstract class AbstractJPATest {
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
-        emf = Persistence.createEntityManagerFactory(persistenceUnit);
         InputStream input = AbstractJPATest.class.getClassLoader().getResourceAsStream(dbPropertiesFile);
         if (input == null) {
             throw new RuntimeException("Unable to locate property file " + dbPropertiesFile);
         }
         dbProperties = new Properties();
         dbProperties.load(input);
-        
+        emf = Persistence.createEntityManagerFactory(persistenceUnit, dbProperties);
+
     }
 
     @AfterClass
@@ -74,23 +74,21 @@ public abstract class AbstractJPATest {
     }
 
     private IDatabaseConnection getDbConnectionFromDriver() throws Exception {
-        Class.forName(dbProperties.getProperty("jdbc.driver"));
+        Class.forName(dbProperties.getProperty("javax.persistence.jdbc.driver"));
 
         IDatabaseConnection connection = new DatabaseConnection(DriverManager.getConnection(
-                dbProperties.getProperty("jdbc.url"),
-                dbProperties.getProperty("jdbc.user"),
-                dbProperties.getProperty("jdbc.password")));
-        
+                dbProperties.getProperty("javax.persistence.jdbc.url"),
+                dbProperties.getProperty("javax.persistence.jdbc.user"),
+                dbProperties.getProperty("javax.persistence.jdbc.password")));
+
         DatabaseConfig dbConfig = connection.getConfig();
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());        
-        
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+
         return connection;
     }
 
     IDatabaseConnection getDbConnection() throws Exception {
         IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
-        //DatabaseConfig dbConfig = connection.getConfig();
-        //dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
         return connection;
     }
 
@@ -99,27 +97,48 @@ public abstract class AbstractJPATest {
     }
 
     void generateFlatXmlDataSet(String fileName) throws Exception {
-        IDatabaseConnection conn = getDbConnectionFromDriver();
-        IDataSet fullDataSet = conn.createDataSet();
-        FileOutputStream os = new FileOutputStream(fileName);
-        FlatXmlDataSet.write(fullDataSet, os);
-        conn.close();
-        os.close();
+        IDatabaseConnection conn = null;
+        FileOutputStream os = null;
+        try {
+            conn = getDbConnectionFromDriver();
+            IDataSet fullDataSet = conn.createDataSet();
+            os = new FileOutputStream(fileName);
+            FlatXmlDataSet.write(fullDataSet, os);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (os != null) {
+                os.close();
+            }
+        }
     }
 
     void cleanInsertFlatXmlDataSet(String fileName) throws Exception {
-        DataFileLoader loader = new FlatXmlDataFileLoader();
-        IDataSet dataSet = loader.load(fileName);
-        IDatabaseConnection conn = getDbConnectionFromDriver();
-        DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
-        conn.close();
+        IDatabaseConnection conn = null;
+        try {
+            DataFileLoader loader = new FlatXmlDataFileLoader();
+            IDataSet dataSet = loader.load(fileName);
+            conn = getDbConnectionFromDriver();
+            DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 
     void deleteAll(String fileName) throws Exception {
-        DataFileLoader loader = new FlatXmlDataFileLoader();
-        IDataSet dataSet = loader.load(fileName);
-        IDatabaseConnection conn = getDbConnectionFromDriver();
-        DatabaseOperation.DELETE_ALL.execute(conn, dataSet);
-        conn.close();
+        IDatabaseConnection conn = null;
+        try {
+            DataFileLoader loader = new FlatXmlDataFileLoader();
+            IDataSet dataSet = loader.load(fileName);
+            conn = getDbConnectionFromDriver();
+            DatabaseOperation.DELETE_ALL.execute(conn, dataSet);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 }
