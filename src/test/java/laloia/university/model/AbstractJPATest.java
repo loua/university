@@ -89,6 +89,9 @@ public abstract class AbstractJPATest {
 
     IDatabaseConnection getDbConnection() throws Exception {
         IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
+        DatabaseConfig dbConfig = connection.getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+        
         return connection;
     }
 
