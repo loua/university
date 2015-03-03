@@ -1,20 +1,21 @@
 package laloia.university.model;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Entity implementation class for Entity: CourseSchedule
  *
  */
 @Entity
-public class CourseSchedule implements Serializable {
+public class CourseSchedule {
 
-    private static final long serialVersionUID = 1L;
-
-    private long id;
+	private long id;
     private Course course;
     private String sectionId;
     private List<MeetingTime> meetingTimes;
