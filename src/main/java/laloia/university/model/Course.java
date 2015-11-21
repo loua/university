@@ -74,6 +74,8 @@ public class Course {
         this.creditHours = creditHours;
     }
 
+    // The owning side of this relationship
+    // Default fetch type is eager
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public Department getDepartment() {
         return department;

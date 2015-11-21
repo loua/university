@@ -26,10 +26,11 @@ import org.junit.BeforeClass;
 
 public abstract class AbstractJPATest {
 
-    private static String persistenceUnit = "university-model";
+    private static final String PERSISTENCE_UNIT = "university-model";
+    private static final String DB_PROPERTIES_FILE = "db.properties";
+
     private static EntityManagerFactory emf;
     private static Properties dbProperties;
-    private static String dbPropertiesFile = "db.properties";
 
     EntityManager em;
     EntityTransaction trx;
@@ -37,13 +38,13 @@ public abstract class AbstractJPATest {
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
-        InputStream input = AbstractJPATest.class.getClassLoader().getResourceAsStream(dbPropertiesFile);
+        InputStream input = AbstractJPATest.class.getClassLoader().getResourceAsStream(DB_PROPERTIES_FILE);
         if (input == null) {
-            throw new RuntimeException("Unable to locate property file " + dbPropertiesFile);
+            throw new RuntimeException("Unable to locate property file " + DB_PROPERTIES_FILE);
         }
         dbProperties = new Properties();
         dbProperties.load(input);
-        emf = Persistence.createEntityManagerFactory(persistenceUnit, dbProperties);
+        emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT, dbProperties);
 
     }
 
@@ -73,6 +74,7 @@ public abstract class AbstractJPATest {
         em.flush();
     }
 
+    // Returns a DbUnit connection used to manage data for unit tests
     private IDatabaseConnection getDbConnectionFromDriver() throws Exception {
         Class.forName(dbProperties.getProperty("javax.persistence.jdbc.driver"));
 
@@ -87,14 +89,26 @@ public abstract class AbstractJPATest {
         return connection;
     }
 
+    /**
+     * Gets the active JPA managed connection as a DbUnit connection. Use this connection to verify results using DbUnit
+     * while the transaction is in progress.
+     *
+     * @return IDatabaseConnection
+     * @throws Exception
+     */
     IDatabaseConnection getDbConnection() throws Exception {
         IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
         DatabaseConfig dbConfig = connection.getConfig();
         dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
-        
+
         return connection;
     }
 
+    /**
+     * Gets the active JPA managed connection
+     *
+     * @return java.sql.Connection
+     */
     Connection getCurrentConnection() {
         return em.unwrap(java.sql.Connection.class);
     }

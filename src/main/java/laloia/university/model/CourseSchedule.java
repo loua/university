@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Entity
 public class CourseSchedule {
 
-	private long id;
+    private long id;
     private Course course;
     private String sectionId;
     private List<MeetingTime> meetingTimes;

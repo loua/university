@@ -52,7 +52,9 @@ public class Department {
         this.code = code;
     }
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    // This is the inverse (non-owning) side of the relationship
+    // mapped by Course.department
+    @OneToMany(mappedBy = "department")
     public List<Course> getCourses() {
         return courses;
     }
