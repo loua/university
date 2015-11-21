@@ -69,13 +69,18 @@ public abstract class AbstractJPATest {
         }
     }
 
+    /**
+     * Persist the entity and flush the persistence context to the datbase.
+     *
+     * @param entity
+     */
     void persistAndFlush(Object entity) {
         em.persist(entity);
         em.flush();
     }
 
     // Returns a DbUnit connection used to manage data for unit tests
-    private IDatabaseConnection getDbConnectionFromDriver() throws Exception {
+    private IDatabaseConnection createDbUnitConnectionFromDriver() throws Exception {
         Class.forName(dbProperties.getProperty("javax.persistence.jdbc.driver"));
 
         IDatabaseConnection connection = new DatabaseConnection(DriverManager.getConnection(
@@ -96,8 +101,8 @@ public abstract class AbstractJPATest {
      * @return IDatabaseConnection
      * @throws Exception
      */
-    IDatabaseConnection getDbConnection() throws Exception {
-        IDatabaseConnection connection = new DatabaseConnection(getCurrentConnection());
+    IDatabaseConnection getActiveDbUnitConnection() throws Exception {
+        IDatabaseConnection connection = new DatabaseConnection(getActiveConnection());
         DatabaseConfig dbConfig = connection.getConfig();
         dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
 
@@ -109,7 +114,7 @@ public abstract class AbstractJPATest {
      *
      * @return java.sql.Connection
      */
-    Connection getCurrentConnection() {
+    Connection getActiveConnection() {
         return em.unwrap(java.sql.Connection.class);
     }
 
@@ -117,7 +122,7 @@ public abstract class AbstractJPATest {
         IDatabaseConnection conn = null;
         FileOutputStream os = null;
         try {
-            conn = getDbConnectionFromDriver();
+            conn = createDbUnitConnectionFromDriver();
             IDataSet fullDataSet = conn.createDataSet();
             os = new FileOutputStream(fileName);
             FlatXmlDataSet.write(fullDataSet, os);
@@ -131,12 +136,18 @@ public abstract class AbstractJPATest {
         }
     }
 
-    void cleanInsertFlatXmlDataSet(String fileName) throws Exception {
+    /**
+     * Performs a clean insert of the specified XML file.
+     *
+     * @param fileName
+     * @throws Exception
+     */
+    void cleanInsertDataSet(String fileName) throws Exception {
         IDatabaseConnection conn = null;
         try {
             DataFileLoader loader = new FlatXmlDataFileLoader();
             IDataSet dataSet = loader.load(fileName);
-            conn = getDbConnectionFromDriver();
+            conn = createDbUnitConnectionFromDriver();
             DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
         } finally {
             if (conn != null) {
@@ -145,12 +156,18 @@ public abstract class AbstractJPATest {
         }
     }
 
+    /**
+     * Deletes all data from tables specified in the XML file.
+     *
+     * @param fileName
+     * @throws Exception
+     */
     void deleteAll(String fileName) throws Exception {
         IDatabaseConnection conn = null;
         try {
             DataFileLoader loader = new FlatXmlDataFileLoader();
             IDataSet dataSet = loader.load(fileName);
-            conn = getDbConnectionFromDriver();
+            conn = createDbUnitConnectionFromDriver();
             DatabaseOperation.DELETE_ALL.execute(conn, dataSet);
         } finally {
             if (conn != null) {

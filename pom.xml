@@ -21,7 +21,7 @@
                         <phase>process-resources</phase>
                         <configuration>
                             <tasks>
-                                <echo>Enhancing JPA Entities with ${jpa.javaagent}</echo>
+                                <echo>Enhancing JPA Entities using ${jpa.enhancerJar}</echo>
                             </tasks>
                         </configuration>
                         <goals>
@@ -117,12 +117,12 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.3.2</version>
+            <version>2.3.3</version>
         </dependency>        
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -146,7 +146,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jpa.enhancerJar>/org/eclipse/persistence/eclipselink/2.5.0/eclipselink-2.5.0.jar</jpa.enhancerJar>
+        <jpa.enhancerJar>/org/eclipse/persistence/eclipselink/2.5.2/eclipselink-2.5.2.jar</jpa.enhancerJar>
         <!--<jpa.javaagent>${maven.dependency.org.eclipse.persistence.eclipselink.jar.path}</jpa.javaagent>-->
     </properties>
 </project>

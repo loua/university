@@ -16,6 +16,41 @@ import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.util.fileloader.DataFileLoader;
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class DepartmentTest extends AbstractJPATest {
 
@@ -31,7 +66,7 @@ public class DepartmentTest extends AbstractJPATest {
                 .load("/expectedDepartmentDataSet.xml");
         ITable expectedTable = expectedDataSet.getTable("DEPARTMENT");
 
-        IDatabaseConnection dbConnection = getDbConnection();
+        IDatabaseConnection dbConnection = getActiveDbUnitConnection();
         IDataSet databaseDataSet = dbConnection.createDataSet();
         ITable actualTable = databaseDataSet.getTable("DEPARTMENT");
         ITable filteredTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable
@@ -65,7 +100,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void persistCourseWithExistingDepartment() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         Course course = new Course("Introduction to Computer Science", "100");
         final long expectedDeptId = 1L;
         Department department = em.find(Department.class, expectedDeptId);
@@ -80,7 +115,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void findCourse() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         final long expectedCourseId = 1L;
 
         Course course = em.find(Course.class, expectedCourseId);
@@ -90,7 +125,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void findCourseWithDepartment() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         final long expectedCourseId = 2;
 
         Course course = em.find(Course.class, expectedCourseId);
@@ -100,7 +135,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void findDepartmentWithoutCourses() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         final long expectedDeptId = 1L;
 
         Department department = em.find(Department.class, expectedDeptId);
@@ -114,7 +149,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void findDepartmentLazyLoadCourses() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         final long expectedDeptId = 2L;
 
         Department department = em.find(Department.class, expectedDeptId);
@@ -130,7 +165,7 @@ public class DepartmentTest extends AbstractJPATest {
 
     @Test
     public void findDepartmentAndFetchCourses() throws Exception {
-        cleanInsertFlatXmlDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/departmentTestDataSet.xml");
         final long expectedDeptId = 2L;
 
         TypedQuery<Department> query = em.createNamedQuery("FindAndFetchCourses", Department.class);
