@@ -55,6 +55,7 @@ public abstract class AbstractJPATest {
 
     @Before
     public void setUpBase() throws Exception {
+        setUp();
         em = emf.createEntityManager();
         punitUtil = em.getEntityManagerFactory().getPersistenceUnitUtil();
         trx = em.getTransaction();
@@ -67,14 +68,21 @@ public abstract class AbstractJPATest {
             trx.rollback();
             em.close();
         }
+        tearDown();
+    }
+    
+    void setUp() throws Exception {
+    }
+    
+    void tearDown() throws Exception {
     }
 
     /**
-     * Persist the entity and flush the persistence context to the datbase.
+     * Save the entity to the database.
      *
      * @param entity
      */
-    void persistAndFlush(Object entity) {
+    void save(Object entity) {
         em.persist(entity);
         em.flush();
     }

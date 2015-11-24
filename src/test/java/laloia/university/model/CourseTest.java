@@ -49,6 +49,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -90,36 +91,43 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class DepartmentTest extends AbstractJPATest {
+public class CourseTest extends AbstractJPATest {
 
     @Override
     void setUp() throws Exception {
-        cleanInsertDataSet("/departmentTestDataSet.xml");
+        cleanInsertDataSet("/courseTestDataSet.xml");
     }
     
     @Override
     void tearDown() throws Exception {
-        deleteAll("/departmentTestDataSet.xml");
+        deleteAll("/courseTestDataSet.xml");
     }
     
     @Test
-    public void persistCourse() throws Exception {
-        Department dept = createDepartment();
+    public void persistCourseWithExistingDepartment() throws Exception {
+        Course course = new Course();
+        course.setCreditHours(3);
+        course.setDescription("An introduction to concepts in computer science");
+        course.setName("Introduction to Computer Science");
+        course.setNumber("100");
 
-        save(dept);
+        Department dept = em.find(Department.class, 2L);
+        course.setDepartment(dept);
+        save(course);
 
         DataFileLoader loader = new FlatXmlDataFileLoader();
         IDataSet expectedDataSet = loader
-                .load("/expectedDepartmentDataSet.xml");
-        ITable expectedTable = expectedDataSet.getTable("DEPARTMENT");
+                .load("/expectedCourseDataSet.xml");
+        ITable expectedTable = expectedDataSet.getTable("COURSE");
 
         IDatabaseConnection dbConnection = getActiveDbUnitConnection();
         IDataSet databaseDataSet = dbConnection.createDataSet();
-        ITable actualTable = databaseDataSet.getTable("DEPARTMENT");
+        ITable actualTable = databaseDataSet.getTable("COURSE");
         ITable filteredTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable
                 .getTableMetaData().getColumns());
 
@@ -127,30 +135,9 @@ public class DepartmentTest extends AbstractJPATest {
         Assertion.assertEquals(expectedTable, filteredTable);
     }
 
+    
     @Test
-    public void persistCourseWithoutDepartment() throws Exception {
-        Course course = new Course("Introduction to Computer Science", "100");
-
-        save(course);
-
-        assertNull(course.getDepartment());
-        assertTrue("course.id > 0", course.getId() > 0);
-    }
-
-    @Test
-    public void persistCourseWithNewDepartment() throws Exception {
-        Course course = new Course("Intro to Computer Science", "100");
-
-        course.setDepartment(createDepartment());
-
-        save(course);
-
-        assertNotNull("course.department != null", course.getDepartment());
-        assertTrue("course.id > 0", course.getId() > 0);
-    }
-
-    @Test
-    public void persistCourseWithExistingDepartment() throws Exception {
+    public void persistedCourseHasDepartment() throws Exception {
         Course course = new Course("Introduction to Computer Science", "100");
         final long expectedDeptId = 1L;
         Department department = em.find(Department.class, expectedDeptId);
@@ -160,10 +147,41 @@ public class DepartmentTest extends AbstractJPATest {
 
         em.clear();
         Course newCourse = em.find(Course.class, course.getId());
+        assertNotEquals(course, newCourse);
         assertEquals(expectedDeptId, newCourse.getDepartment().getId());
+    }
+    
+    @Test
+    public void persistNewCourseWithoutDepartment() throws Exception {
+        Course course = new Course("Introduction to Computer Science", "100");
+
+        save(course);
+
+        assertNull(course.getDepartment());
+        assertTrue("course.id > 0", course.getId() > 0);
     }
 
     @Test
+    public void persistNewCourseWithNewDepartment() throws Exception {
+        Course course = new Course("Intro to psychology", "101");
+        Department dept = new Department();
+        dept.setCode("PS");
+        dept.setName("Psychology");
+        course.setDepartment(dept);
+
+        save(course);
+        
+        em.clear();
+        Course newCourse = em.find(Course.class, course.getId());
+        assertNotEquals(course, newCourse);
+        assertNotNull("newCourse.department != null", newCourse.getDepartment());
+        assertTrue(newCourse.getDepartment().getId() > 0);
+        assertEquals("PS", newCourse.getDepartment().getCode());
+        assertEquals("Psychology", newCourse.getDepartment().getName());
+    }
+
+
+    //@Test
     public void findCourse() throws Exception {
         final long expectedCourseId = 1L;
 
@@ -172,7 +190,7 @@ public class DepartmentTest extends AbstractJPATest {
         assertNotNull("course.department != null", course.getDepartment());
     }
 
-    @Test
+    //@Test
     public void findCourseWithDepartment() throws Exception {
         final long expectedCourseId = 2;
 
@@ -194,7 +212,7 @@ public class DepartmentTest extends AbstractJPATest {
         assertEquals("department.courses.size", 0, department.getCourses().size());
     }
 
-    @Test
+    //@Test
     public void findDepartmentLazyLoadCourses() throws Exception {
         final long expectedDeptId = 2L;
 
@@ -209,7 +227,7 @@ public class DepartmentTest extends AbstractJPATest {
         assertEquals("All courses loaded", coursesSize, 2);
     }
 
-    @Test
+    //@Test
     public void findDepartmentAndFetchCourses() throws Exception {
         final long expectedDeptId = 2L;
 

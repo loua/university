@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 
 @Entity
-@NamedQuery(name = "FindAndFetchCourses", query = "select d from Department d join fetch d.courses where d.id = :deptId")
+@NamedQuery(name = "FindDepartmentAndFetchCourses", query = "select d from Department d join fetch d.courses where d.id = :deptId")
 public class Department {
 
     private long id;

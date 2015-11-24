@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<DEPARTMENT ID="1" CODE="HS" NAME="Health Sciences"/>
+	<DEPARTMENT ID="2" CODE="CS" NAME="Computer Science"/>
+</dataset>

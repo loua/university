@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<DEPARTMENT CODE="CS" NAME="Computer Science"/>
+        <DEPARTMENT CODE="HS" NAME="Health Sciences"/>
+    	<DEPARTMENT CODE="CS" NAME="Computer Science"/>
+	<DEPARTMENT CODE="PS" NAME="Psychology"/>
 </dataset>

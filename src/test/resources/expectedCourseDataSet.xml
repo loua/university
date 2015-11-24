@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <COURSE CREDITHOURS="3" 
+            DESCRIPTION="An introduction to concepts in computer science" 
+            NAME="Introduction to Computer Science" 
+            NUMBER="100" 
+            DEPARTMENT_ID="2" />
+</dataset>
