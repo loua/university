@@ -56,6 +56,7 @@ public abstract class AbstractJPATest {
     @Before
     public void setUpBase() throws Exception {
         setUp();
+        emf.getCache().evictAll();
         em = emf.createEntityManager();
         punitUtil = em.getEntityManagerFactory().getPersistenceUnitUtil();
         trx = em.getTransaction();
@@ -68,6 +69,7 @@ public abstract class AbstractJPATest {
             trx.rollback();
             em.close();
         }
+        emf.getCache().evictAll();
         tearDown();
     }
     
