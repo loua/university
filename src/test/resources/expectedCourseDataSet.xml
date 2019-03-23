@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <COURSE CREDITHOURS="3" 
-            DESCRIPTION="An introduction to concepts in computer science" 
-            NAME="Introduction to Computer Science" 
-            NUMBER="100" 
-            DEPARTMENT_ID="2" />
+	<COURSE ID="1" CREDITHOURS="3"
+		DESCRIPTION="An introduction to concepts in computer science for the beginner"
+		NAME="Introduction to Computer Science" NUMBER="100" DEPARTMENT_ID="2" />
+	<COURSE ID="2" CREDITHOURS="3"
+		DESCRIPTION="An introduction to computer programming"
+		NAME="Introduction to Programming" NUMBER="101" DEPARTMENT_ID="2" />
+	<COURSE ID="3" CREDITHOURS="3"
+		DESCRIPTION="Database programming"
+		NAME="Introduction to Databases" NUMBER="102" DEPARTMENT_ID="2" />
 </dataset>

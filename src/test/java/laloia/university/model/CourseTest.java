@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import javax.persistence.TypedQuery;
-
 import org.dbunit.Assertion;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -34,9 +32,9 @@ public class CourseTest extends AbstractJPATest {
     public void persistCourseWithExistingDepartment() throws Exception {
         Course course = new Course();
         course.setCreditHours(3);
-        course.setDescription("An introduction to concepts in computer science");
-        course.setName("Introduction to Computer Science");
-        course.setNumber("100");
+        course.setDescription("Database programming");
+        course.setName("Introduction to Databases");
+        course.setNumber("102");
 
         Department dept = em.find(Department.class, 2L);
         course.setDepartment(dept);
@@ -46,17 +44,16 @@ public class CourseTest extends AbstractJPATest {
         IDataSet expectedDataSet = loader
                 .load("/expectedCourseDataSet.xml");
         ITable expectedTable = expectedDataSet.getTable("COURSE");
+        ITable fliteredExpectedTable = DefaultColumnFilter.excludedColumnsTable(expectedTable, new String[] {"ID"});
 
         IDatabaseConnection dbConnection = getActiveDbUnitConnection();
         IDataSet databaseDataSet = dbConnection.createDataSet();
         ITable actualTable = databaseDataSet.getTable("COURSE");
-        ITable filteredTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable
-                .getTableMetaData().getColumns());
+        ITable filteredActualTable = DefaultColumnFilter.excludedColumnsTable(actualTable, new String[] {"ID"});
 
         // Assert actual database table match expected table
-        Assertion.assertEquals(expectedTable, filteredTable);
+        Assertion.assertEquals(fliteredExpectedTable, filteredActualTable);
     }
-
     
     @Test
     public void persistedCourseHasDepartment() throws Exception {
@@ -103,7 +100,7 @@ public class CourseTest extends AbstractJPATest {
     }
 
 
-    //@Test
+    @Test
     public void findCourse() throws Exception {
         final long expectedCourseId = 1L;
 
@@ -112,7 +109,7 @@ public class CourseTest extends AbstractJPATest {
         assertNotNull("course.department != null", course.getDepartment());
     }
 
-    //@Test
+    @Test
     public void findCourseWithDepartment() throws Exception {
         final long expectedCourseId = 2;
 
@@ -132,36 +129,6 @@ public class CourseTest extends AbstractJPATest {
         assertEquals("department.id", expectedDeptId, department.getId());
         assertNotNull("department.courses", department.getCourses());
         assertEquals("department.courses.size", 0, department.getCourses().size());
-    }
-
-    //@Test
-    public void findDepartmentLazyLoadCourses() throws Exception {
-        final long expectedDeptId = 2L;
-
-        Department department = em.find(Department.class, expectedDeptId);
-
-        assertTrue(punitUtil.isLoaded(department));
-        assertFalse(punitUtil.isLoaded(department, "courses"));
-
-        int coursesSize = department.getCourses().size();
-
-        assertTrue(punitUtil.isLoaded(department, "courses"));
-        assertEquals("All courses loaded", coursesSize, 2);
-    }
-
-    //@Test
-    public void findDepartmentAndFetchCourses() throws Exception {
-        final long expectedDeptId = 2L;
-
-        TypedQuery<Department> query = em.createNamedQuery("FindDepartmentAndFetchCourses", Department.class);
-        query.setParameter("deptId", expectedDeptId);
-        Department department = query.getSingleResult();
-        em.detach(department);
-
-        assertNotNull("department", department);
-        assertEquals("department.id", expectedDeptId, department.getId());
-        assertNotNull("department.courses", department.getCourses());
-        assertEquals("department.courses.size", 2, department.getCourses().size());
     }
 
     Department createDepartment() {
